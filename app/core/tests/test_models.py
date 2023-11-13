@@ -68,17 +68,17 @@ class ModelTests(TestCase):
             title='Sample recipe name',
             time_minutes=5,
             price=Decimal('5.50'),
-            description='Sample receipe description.',
+            description='Sample recipe description.',
         )
 
         self.assertEqual(str(recipe), recipe.title)
-    #
-    # def test_create_tag(self):
-    #     """Test creating a tag is successful."""
-    #     user = create_user()
-    #     tag = models.Tag.objects.create(user=user, name='Tag1')
-    #
-    #     self.assertEqual(str(tag), tag.name)
+
+    def test_create_tag(self):
+        """Test creating a tag is successful."""
+        user = create_user()
+        tag = models.Tag.objects.create(user=user, name='Tag1')
+
+        self.assertEqual(str(tag), tag.name)
     #
     # def test_create_ingredient(self):
     #     """Test creating an ingredient is successful."""

@@ -17,14 +17,16 @@ class Command(BaseCommand):
         db_up = False
         while db_up is False:
             try:
-                # Utilisez les variables d'environnement pour les informations de connexion
+                # Utilisez les variables d'environnement pour les
+                # informations de connexion
                 db_connection = psycopg2.connect(
                     host=os.environ.get("DB_HOST"),
                     database=os.environ.get("DB_NAME"),
                     user=os.environ.get("DB_USER"),
                     password=os.environ.get("DB_PASS")
                 )
-                db_connection.close()  # Fermez la connexion
+                # Fermez la connexion
+                db_connection.close()
                 db_up = True
             except (Psycopg2Error, OperationalError):
                 self.stdout.write('Database unavailable, waiting 1 second...')

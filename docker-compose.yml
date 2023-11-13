@@ -31,7 +31,6 @@ services:
       - POSGRES_DB=devdb
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin
-
 volumes:
   dev-db-data:
 
