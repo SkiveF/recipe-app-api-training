@@ -10,10 +10,10 @@ import os
 
 class Command(BaseCommand):
     """Django command to wait for the database."""
-    
+
     def handle(self, *args, **options):
         """Entrypoint for the command."""
-        self.stdout.write('Waiting for the database...')
+        self.stdout.write("Waiting for the database...")
         db_up = False
         while db_up is False:
             try:
@@ -23,13 +23,13 @@ class Command(BaseCommand):
                     host=os.environ.get("DB_HOST"),
                     database=os.environ.get("DB_NAME"),
                     user=os.environ.get("DB_USER"),
-                    password=os.environ.get("DB_PASS")
+                    password=os.environ.get("DB_PASS"),
                 )
                 # Fermez la connexion
                 db_connection.close()
                 db_up = True
             except (Psycopg2Error, OperationalError):
-                self.stdout.write('Database unavailable, waiting 1 second...')
+                self.stdout.write("Database unavailable, waiting 1 second...")
                 sleep(1)
-        
-        self.stdout.write(self.style.SUCCESS('Database available!'))
+
+        self.stdout.write(self.style.SUCCESS("Database available!"))
