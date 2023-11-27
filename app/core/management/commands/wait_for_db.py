@@ -1,35 +1,27 @@
-from time import sleep
-import psycopg2
-from psycopg2 import OperationalError as Psycopg2Error
+"""
+Django command to wait for the database to be available.
+"""
+import time
+
+from psycopg2 import OperationalError as Psycopg2OpError
+
 from django.db.utils import OperationalError
 from django.core.management.base import BaseCommand
 
-# Importez les variables d'environnement de votre fichier docker-compose.yml
-import os
-
 
 class Command(BaseCommand):
-    """Django command to wait for the database."""
-
+    """Django command to wait for database."""
+    
     def handle(self, *args, **options):
-        """Entrypoint for the command."""
-        self.stdout.write("Waiting for the database...")
+        """Entrypoint for command."""
+        self.stdout.write('Waiting for database...')
         db_up = False
         while db_up is False:
             try:
-                # Utilisez les variables d'environnement pour les
-                # informations de connexion
-                db_connection = psycopg2.connect(
-                    host=os.environ.get("DB_HOST"),
-                    database=os.environ.get("DB_NAME"),
-                    user=os.environ.get("DB_USER"),
-                    password=os.environ.get("DB_PASS"),
-                )
-                # Fermez la connexion
-                db_connection.close()
+                self.check(databases=['default'])
                 db_up = True
-            except (Psycopg2Error, OperationalError):
-                self.stdout.write("Database unavailable, waiting 1 second...")
-                sleep(1)
-
-        self.stdout.write(self.style.SUCCESS("Database available!"))
+            except (Psycopg2OpError, OperationalError):
+                self.stdout.write('Database unavailable, waiting 1 second...')
+                time.sleep(1)
+        
+        self.stdout.write(self.style.SUCCESS('Database available!'))
