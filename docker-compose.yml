@@ -10,6 +10,7 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
+      - dev-static-data:/vol/web
     command: >
       sh -c "python manage.py wait_for_db && 
              python manage.py migrate && 
@@ -28,9 +29,10 @@ services:
     volumes:
       - dev-db-data:/var/lib/postgresql/data
     environment:
-      - POSGRES_DB=devdb
+      - POSTGRES_DB=devdb
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin
 volumes:
   dev-db-data:
+  dev-static-data:
 
